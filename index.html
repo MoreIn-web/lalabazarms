@@ -87,6 +87,11 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .btn-secondary {
             background: #f0f0f0;
             color: #333;
@@ -405,7 +410,7 @@
         <div id="loginForm">
             <h2 class="auth-title">🔐 Login</h2>
             <div id="loginMessage"></div>
-            <form onsubmit="handleLogin(event)">
+            <form id="loginFormElement">
                 <div class="form-group">
                     <label>Madrasha Roll</label>
                     <input type="text" id="loginRoll" required>
@@ -414,10 +419,10 @@
                     <label>Password</label>
                     <input type="password" id="loginPassword" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
             </form>
             <div class="switch-auth">
-                Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+                Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign Up</a>
             </div>
         </div>
 
@@ -425,7 +430,7 @@
         <div id="signupForm" class="hidden">
             <h2 class="auth-title">📝 Sign Up</h2>
             <div id="signupMessage"></div>
-            <form onsubmit="handleSignup(event)">
+            <form id="signupFormElement">
                 <div class="form-group">
                     <label>Your Name</label>
                     <input type="text" id="signupName" required>
@@ -438,10 +443,10 @@
                     <label>Simple Password</label>
                     <input type="password" id="signupPassword" required minlength="4">
                 </div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-primary" id="signupBtn">Sign Up</button>
             </form>
             <div class="switch-auth">
-                Already have an account? <a href="#" onclick="showLogin()">Login</a>
+                Already have an account? <a href="#" onclick="showLogin(); return false;">Login</a>
             </div>
         </div>
     </div>
@@ -608,24 +613,34 @@
             }
         }
 
+        // Attach form event listeners
+        document.getElementById('signupFormElement').addEventListener('submit', handleSignup);
+        document.getElementById('loginFormElement').addEventListener('submit', handleLogin);
+
         // Sign Up Handler
-        window.handleSignup = async function(event) {
+        async function handleSignup(event) {
             event.preventDefault();
             
-            const name = document.getElementById('signupName').value;
-            const roll = document.getElementById('signupRoll').value;
+            const name = document.getElementById('signupName').value.trim();
+            const roll = document.getElementById('signupRoll').value.trim();
             const password = document.getElementById('signupPassword').value;
+            
+            const signupBtn = document.getElementById('signupBtn');
+            signupBtn.disabled = true;
+            signupBtn.textContent = 'Signing up...';
             
             try {
                 // Check if roll already exists
-                const { data: existingUser, error: checkError } = await supabase
+                const { data: existingUser } = await supabase
                     .from('students')
                     .select('*')
                     .eq('roll', roll)
-                    .single();
+                    .maybeSingle();
                 
                 if (existingUser) {
                     showMessage('signupMessage', 'This roll number is already registered!', 'error');
+                    signupBtn.disabled = false;
+                    signupBtn.textContent = 'Sign Up';
                     return;
                 }
                 
@@ -635,37 +650,48 @@
                     .insert([
                         { name: name, roll: roll, password: password }
                     ])
-                    .select();
+                    .select()
+                    .single();
                 
                 if (error) {
-                    showMessage('signupMessage', 'Error: ' + error.message, 'error');
-                    return;
+                    throw error;
                 }
                 
-                showMessage('signupMessage', 'Sign up successful! Please login.', 'success');
+                showMessage('signupMessage', 'Sign up successful! Loading dashboard...', 'success');
+                
+                // Save user data to localStorage for session persistence
+                localStorage.setItem('userData', JSON.stringify(data));
                 
                 // Clear form
                 document.getElementById('signupName').value = '';
                 document.getElementById('signupRoll').value = '';
                 document.getElementById('signupPassword').value = '';
                 
-                // Switch to login after 1.5 seconds
+                // Go directly to dashboard after 1 second
                 setTimeout(() => {
-                    showLogin();
-                }, 1500);
+                    showMainApp(data);
+                    signupBtn.disabled = false;
+                    signupBtn.textContent = 'Sign Up';
+                }, 1000);
                 
             } catch (err) {
-                showMessage('signupMessage', 'An error occurred. Please try again.', 'error');
-                console.error(err);
+                console.error('Signup error:', err);
+                showMessage('signupMessage', 'Error: ' + err.message, 'error');
+                signupBtn.disabled = false;
+                signupBtn.textContent = 'Sign Up';
             }
-        };
+        }
 
         // Login Handler
-        window.handleLogin = async function(event) {
+        async function handleLogin(event) {
             event.preventDefault();
             
-            const roll = document.getElementById('loginRoll').value;
+            const roll = document.getElementById('loginRoll').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
             
             try {
                 const { data, error } = await supabase
@@ -673,27 +699,37 @@
                     .select('*')
                     .eq('roll', roll)
                     .eq('password', password)
-                    .single();
+                    .maybeSingle();
                 
-                if (error || !data) {
+                if (error) {
+                    throw error;
+                }
+                
+                if (!data) {
                     showMessage('loginMessage', 'Invalid roll number or password!', 'error');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Login';
                     return;
                 }
                 
                 // Save user data to localStorage for session persistence
                 localStorage.setItem('userData', JSON.stringify(data));
                 
-                showMessage('loginMessage', 'Login successful!', 'success');
+                showMessage('loginMessage', 'Login successful! Loading dashboard...', 'success');
                 
                 setTimeout(() => {
                     showMainApp(data);
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Login';
                 }, 1000);
                 
             } catch (err) {
-                showMessage('loginMessage', 'An error occurred. Please try again.', 'error');
-                console.error(err);
+                console.error('Login error:', err);
+                showMessage('loginMessage', 'Error: ' + err.message, 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
             }
-        };
+        }
 
         // Logout Handler
         window.handleLogout = function() {
