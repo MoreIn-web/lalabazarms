@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lalabazarms</title>
+    <title>Lalabazarms - Student Portal</title>
     <style>
         * {
             margin: 0;
@@ -23,12 +23,157 @@
             margin: 0 auto;
         }
 
+        /* Auth Container Styles */
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .switch-auth {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .switch-auth a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-auth a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background: #4ade80;
+            color: white;
+        }
+
+        .message.error {
+            background: #ef4444;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Main Page Styles */
         h1 {
             text-align: center;
             color: white;
             font-size: 3em;
             margin-bottom: 40px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info span {
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
         }
 
         .celebrate-box {
@@ -254,10 +399,63 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Authentication Pages -->
+    <div id="authContainer" class="auth-container">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h2 class="auth-title">🔐 Login</h2>
+            <div id="loginMessage"></div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Madrasha Roll</label>
+                    <input type="text" id="loginRoll" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div class="switch-auth">
+                Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupForm" class="hidden">
+            <h2 class="auth-title">📝 Sign Up</h2>
+            <div id="signupMessage"></div>
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Madrasha Roll</label>
+                    <input type="text" id="signupRoll" required>
+                </div>
+                <div class="form-group">
+                    <label>Simple Password</label>
+                    <input type="password" id="signupPassword" required minlength="4">
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+            <div class="switch-auth">
+                Already have an account? <a href="#" onclick="showLogin()">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="container hidden" id="mainApp">
         <div id="mainPage">
             <h1>✨ Lalabazarms ✨</h1>
             
+            <div class="user-info">
+                <span>Welcome, <span id="userName"></span>!</span>
+                <button class="btn-logout" onclick="handleLogout()">Logout</button>
+            </div>
+
             <div class="celebrate-box" onclick="showCalendar()">
                 <h2>🎉 Madrasha Celebrate 🎉</h2>
             </div>
@@ -322,39 +520,39 @@
                 <div class="student-box" onclick="toggleDetails(this)">
                     <div class="student-name">Tahsin</div>
                     <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 13</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student roll is not found :(</div>
+                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
                     </div>
                 </div>
 
                 <div class="student-box" onclick="toggleDetails(this)">
                     <div class="student-name">Hassan</div>
                     <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 13</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This Student roll is not found :(</div>
+                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
                     </div>
                 </div>
 
                 <div class="student-box" onclick="toggleDetails(this)">
                     <div class="student-name">Ryadh</div>
                     <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 13</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student roll is not found :(</div>
+                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
                     </div>
                 </div>
 
                 <div class="student-box" onclick="toggleDetails(this)">
                     <div class="student-name">Sahin</div>
                     <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 13</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> this student roll is not found :(</div>
+                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
                     </div>
                 </div>
 
                 <div class="student-box" onclick="toggleDetails(this)">
                     <div class="student-name">Hafiz 2</div>
                     <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
+                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
                         <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
                     </div>
                 </div>
@@ -388,8 +586,153 @@
         </div>
     </div>
 
-    <script>
-        function toggleDetails(element) {
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // Initialize Supabase
+        const supabaseUrl = 'https://gwrcvtigfgzwamwvtdcs.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3cmN2dGlnZmd6d2Ftd3Z0ZGNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTY3MzksImV4cCI6MjA3NDc5MjczOX0.6cMJLCOjCRAwJzkFsj2rUVpPMi2zwXca_lq8nJPpIkg';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        // Make supabase globally available
+        window.supabase = supabase;
+
+        // Check if user is already logged in
+        checkAuth();
+
+        async function checkAuth() {
+            const userData = JSON.parse(localStorage.getItem('userData') || 'null');
+            
+            if (userData) {
+                showMainApp(userData);
+            }
+        }
+
+        // Sign Up Handler
+        window.handleSignup = async function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const roll = document.getElementById('signupRoll').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            try {
+                // Check if roll already exists
+                const { data: existingUser, error: checkError } = await supabase
+                    .from('students')
+                    .select('*')
+                    .eq('roll', roll)
+                    .single();
+                
+                if (existingUser) {
+                    showMessage('signupMessage', 'This roll number is already registered!', 'error');
+                    return;
+                }
+                
+                // Insert new user
+                const { data, error } = await supabase
+                    .from('students')
+                    .insert([
+                        { name: name, roll: roll, password: password }
+                    ])
+                    .select();
+                
+                if (error) {
+                    showMessage('signupMessage', 'Error: ' + error.message, 'error');
+                    return;
+                }
+                
+                showMessage('signupMessage', 'Sign up successful! Please login.', 'success');
+                
+                // Clear form
+                document.getElementById('signupName').value = '';
+                document.getElementById('signupRoll').value = '';
+                document.getElementById('signupPassword').value = '';
+                
+                // Switch to login after 1.5 seconds
+                setTimeout(() => {
+                    showLogin();
+                }, 1500);
+                
+            } catch (err) {
+                showMessage('signupMessage', 'An error occurred. Please try again.', 'error');
+                console.error(err);
+            }
+        };
+
+        // Login Handler
+        window.handleLogin = async function(event) {
+            event.preventDefault();
+            
+            const roll = document.getElementById('loginRoll').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('students')
+                    .select('*')
+                    .eq('roll', roll)
+                    .eq('password', password)
+                    .single();
+                
+                if (error || !data) {
+                    showMessage('loginMessage', 'Invalid roll number or password!', 'error');
+                    return;
+                }
+                
+                // Save user data to localStorage for session persistence
+                localStorage.setItem('userData', JSON.stringify(data));
+                
+                showMessage('loginMessage', 'Login successful!', 'success');
+                
+                setTimeout(() => {
+                    showMainApp(data);
+                }, 1000);
+                
+            } catch (err) {
+                showMessage('loginMessage', 'An error occurred. Please try again.', 'error');
+                console.error(err);
+            }
+        };
+
+        // Logout Handler
+        window.handleLogout = function() {
+            localStorage.removeItem('userData');
+            location.reload();
+        };
+
+        // Show Main App
+        function showMainApp(userData) {
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('userName').textContent = userData.name;
+        }
+
+        // Show Message
+        function showMessage(elementId, message, type) {
+            const messageDiv = document.getElementById(elementId);
+            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Switch between Login and Signup
+        window.showLogin = function() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('loginMessage').innerHTML = '';
+        };
+
+        window.showSignup = function() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+            document.getElementById('signupMessage').innerHTML = '';
+        };
+
+        // Student Details Toggle
+        window.toggleDetails = function(element) {
             const details = element.querySelector('.student-details');
             const allDetails = document.querySelectorAll('.student-details');
             
@@ -400,18 +743,19 @@
             });
             
             details.classList.toggle('active');
-        }
+        };
 
-        function showCalendar() {
+        // Calendar Functions
+        window.showCalendar = function() {
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('calendarPage').classList.add('active');
             generateCalendar();
-        }
+        };
 
-        function showMain() {
+        window.showMain = function() {
             document.getElementById('mainPage').style.display = 'block';
             document.getElementById('calendarPage').classList.remove('active');
-        }
+        };
 
         function generateCalendar() {
             generateMonth('septemberDates', 9, 2025);
@@ -430,10 +774,7 @@
                 dateBox.className = 'date-box';
                 dateBox.textContent = day;
 
-                // Check if it's Friday (5) or Saturday (6)
                 const isFriSat = dayOfWeek === 5 || dayOfWeek === 6;
-
-                // Check if it's in the Sept 30 - Nov 6 range
                 const isSept30ToNov6 = (month === 9 && day === 30) || 
                                        (month === 10) || 
                                        (month === 11 && day <= 6);
