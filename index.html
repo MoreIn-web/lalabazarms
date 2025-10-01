@@ -12,227 +12,314 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
             min-height: 100vh;
-            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 25s infinite;
+            border-radius: 50%;
+        }
+
+        .bg-animation span:nth-child(1) { left: 10%; animation-duration: 20s; animation-delay: 0s; }
+        .bg-animation span:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; }
+        .bg-animation span:nth-child(3) { left: 30%; animation-duration: 22s; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 40%; animation-duration: 19s; animation-delay: 1s; }
+        .bg-animation span:nth-child(5) { left: 50%; animation-duration: 21s; animation-delay: 3s; }
+        .bg-animation span:nth-child(6) { left: 60%; animation-duration: 23s; animation-delay: 5s; }
+        .bg-animation span:nth-child(7) { left: 70%; animation-duration: 20s; animation-delay: 2s; }
+        .bg-animation span:nth-child(8) { left: 80%; animation-duration: 24s; animation-delay: 4s; }
+        .bg-animation span:nth-child(9) { left: 90%; animation-duration: 19s; animation-delay: 1s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
         }
 
         .container {
-            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         /* Auth Container Styles */
-        .auth-container {
-            max-width: 450px;
-            margin: 50px auto;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .auth-title {
+        .auth-container {
+            max-width: 480px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-logo {
             text-align: center;
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo h1 {
+            font-size: 2.8em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .auth-logo p {
+            color: #666;
+            font-size: 1em;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         .form-group label {
             display: block;
             color: #333;
-            font-weight: bold;
-            margin-bottom: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95em;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 1em;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
         }
 
         .form-group input:focus {
             outline: none;
             border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1.1em;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
         }
 
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
+        .btn-primary:active {
+            transform: translateY(0);
         }
 
         .switch-auth {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
             color: #666;
+            font-size: 0.95em;
         }
 
         .switch-auth a {
             color: #667eea;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
+            transition: color 0.3s ease;
         }
 
         .switch-auth a:hover {
-            text-decoration: underline;
+            color: #764ba2;
         }
 
         .message {
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border-radius: 12px;
             margin-bottom: 20px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message.success {
-            background: #4ade80;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
         }
 
         .message.error {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
-        /* Main Page Styles */
-        h1 {
-            text-align: center;
-            color: white;
-            font-size: 3em;
+        /* Dashboard Styles */
+        .dashboard {
+            padding: 30px 0;
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 25px 35px;
+            border-radius: 25px;
             margin-bottom: 40px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-        }
-
-        .user-info {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: slideDown 0.6s ease-out;
         }
 
-        .user-info span {
+        .welcome-section h2 {
             color: white;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 2em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .welcome-section p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1em;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
         .btn-logout {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
+            padding: 12px 30px;
+            border-radius: 12px;
             font-size: 1em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
         }
 
         .btn-logout:hover {
-            background: #dc2626;
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.5);
         }
 
-        .celebrate-box {
+        .celebrate-section {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 50px;
+            border-radius: 30px;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            animation: luxuryShine 3s infinite;
-        }
-
-        .celebrate-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-        }
-
-        .celebrate-box h2 {
-            color: white;
-            font-size: 2.5em;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-        }
-
-        @keyframes luxuryShine {
-            0%, 100% {
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.3);
-            }
-            50% {
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 50px rgba(255, 255, 255, 0.6);
-            }
-        }
-
-        .students-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .student-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            box-shadow: 0 20px 60px rgba(245, 87, 108, 0.4);
             position: relative;
             overflow: hidden;
+            animation: slideUp 0.6s ease-out 0.2s backwards;
         }
 
-        .student-box::before {
+        .celebrate-section::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -242,36 +329,121 @@
             background: linear-gradient(
                 45deg,
                 transparent,
-                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.2),
                 transparent
             );
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
+            animation: celebrateShine 4s infinite;
         }
 
-        @keyframes shine {
+        @keyframes celebrateShine {
             0% {
-                top: -50%;
-                left: -50%;
+                transform: rotate(0deg);
             }
             100% {
-                top: 150%;
-                left: 150%;
+                transform: rotate(360deg);
             }
         }
 
-        .student-box:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.6);
+        .celebrate-section:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(245, 87, 108, 0.5);
+        }
+
+        .celebrate-section h2 {
+            color: white;
+            font-size: 3em;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .students-section h3 {
+            color: white;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .student-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .student-card:nth-child(1) { animation-delay: 0.1s; }
+        .student-card:nth-child(2) { animation-delay: 0.15s; }
+        .student-card:nth-child(3) { animation-delay: 0.2s; }
+        .student-card:nth-child(4) { animation-delay: 0.25s; }
+        .student-card:nth-child(5) { animation-delay: 0.3s; }
+        .student-card:nth-child(6) { animation-delay: 0.35s; }
+        .student-card:nth-child(7) { animation-delay: 0.4s; }
+        .student-card:nth-child(8) { animation-delay: 0.45s; }
+        .student-card:nth-child(9) { animation-delay: 0.5s; }
+        .student-card:nth-child(10) { animation-delay: 0.55s; }
+        .student-card:nth-child(11) { animation-delay: 0.6s; }
+        .student-card:nth-child(12) { animation-delay: 0.65s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: left 0.5s;
+        }
+
+        .student-card:hover::before {
+            left: 100%;
+        }
+
+        .student-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .student-name {
-            font-size: 1.5em;
+            font-size: 1.6em;
             color: white;
             text-align: center;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
         }
@@ -279,469 +451,509 @@
         .student-details {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease;
-            margin-top: 0;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             z-index: 1;
         }
 
         .student-details.active {
-            max-height: 200px;
+            max-height: 250px;
             margin-top: 20px;
         }
 
         .detail-item {
             background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            margin: 8px 0;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 10px 0;
             color: white;
-            font-size: 1.1em;
+            font-size: 1.05em;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
         }
 
         .detail-label {
-            font-weight: bold;
+            font-weight: 700;
             color: #ffd700;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        /* Calendar Page Styles */
+        /* Calendar Page */
         .calendar-page {
-            display: none;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease-out;
         }
 
-        .calendar-page.active {
-            display: block;
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
         }
 
         .calendar-title {
-            font-size: 2.5em;
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: none;
+            font-size: 2.8em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
         }
 
         .back-button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 1.1em;
+            padding: 14px 35px;
+            border-radius: 12px;
+            font-size: 1.05em;
+            font-weight: 700;
             cursor: pointer;
-            margin-bottom: 20px;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
         .back-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
         }
 
         .month-section {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .month-title {
-            font-size: 2em;
+            font-size: 2.2em;
             color: #764ba2;
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
         }
 
         .calendar-dates {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 12px;
         }
 
         .date-box {
-            padding: 15px;
+            padding: 18px;
             text-align: center;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.1em;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.15em;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .date-box:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(5deg);
         }
 
         .date-box.green {
-            background: #4ade80;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
         .date-box.red {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         .legend {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
+            gap: 40px;
+            margin-top: 40px;
             flex-wrap: wrap;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 600;
+            color: #333;
         }
 
         .legend-color {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .celebrate-section h2 {
+                font-size: 2em;
+            }
+
+            .students-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .calendar-page {
+                padding: 30px 20px;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <!-- Authentication Pages -->
-    <div id="authContainer" class="auth-container">
-        <!-- Login Form -->
-        <div id="loginForm">
-            <h2 class="auth-title">🔐 Login</h2>
-            <div id="loginMessage"></div>
-            <form id="loginFormElement">
-                <div class="form-group">
-                    <label>Madrasha Roll</label>
-                    <input type="text" id="loginRoll" required>
+    <div id="authWrapper" class="auth-wrapper">
+        <div class="auth-container">
+            <!-- Login Form -->
+            <div id="loginForm">
+                <div class="auth-logo">
+                    <h1>✨ Lalabazarms</h1>
+                    <p>Welcome back! Please login to continue</p>
                 </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" required>
+                <div id="loginMessage"></div>
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label>Madrasha Roll</label>
+                        <input type="text" id="loginRoll" placeholder="Enter your roll number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login to Dashboard</button>
+                </form>
+                <div class="switch-auth">
+                    Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign Up</a>
                 </div>
-                <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
-            </form>
-            <div class="switch-auth">
-                Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign Up</a>
-            </div>
-        </div>
-
-        <!-- Sign Up Form -->
-        <div id="signupForm" class="hidden">
-            <h2 class="auth-title">📝 Sign Up</h2>
-            <div id="signupMessage"></div>
-            <form id="signupFormElement">
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" id="signupName" required>
-                </div>
-                <div class="form-group">
-                    <label>Your Madrasha Roll</label>
-                    <input type="text" id="signupRoll" required>
-                </div>
-                <div class="form-group">
-                    <label>Simple Password</label>
-                    <input type="password" id="signupPassword" required minlength="4">
-                </div>
-                <button type="submit" class="btn btn-primary" id="signupBtn">Sign Up</button>
-            </form>
-            <div class="switch-auth">
-                Already have an account? <a href="#" onclick="showLogin(); return false;">Login</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Application -->
-    <div class="container hidden" id="mainApp">
-        <div id="mainPage">
-            <h1>✨ Lalabazarms ✨</h1>
-            
-            <div class="user-info">
-                <span>Welcome, <span id="userName"></span>!</span>
-                <button class="btn-logout" onclick="handleLogout()">Logout</button>
             </div>
 
-            <div class="celebrate-box" onclick="showCalendar()">
-                <h2>🎉 Madrasha Celebrate 🎉</h2>
-            </div>
-
-            <div class="students-grid">
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Rakib</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 14</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> 10</div>
+            <!-- Sign Up Form -->
+            <div id="signupForm" class="hidden">
+                <div class="auth-logo">
+                    <h1>✨ Lalabazarms</h1>
+                    <p>Create your account to get started</p>
+                </div>
+                <div id="signupMessage"></div>
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
                     </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Hafizur</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> 11</div>
+                    <div class="form-group">
+                        <label>Your Madrasha Roll</label>
+                        <input type="text" id="signupRoll" placeholder="Enter your roll number" required>
                     </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Kaku</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password" required minlength="4">
                     </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Salman</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Adeb</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Nurul Amin</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Dipo</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> 18</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Tahsin</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Hassan</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Ryadh</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Sahin</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
-                    </div>
-                </div>
-
-                <div class="student-box" onclick="toggleDetails(this)">
-                    <div class="student-name">Hafiz 2</div>
-                    <div class="student-details">
-                        <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
-                        <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="calendar-page" id="calendarPage">
-            <button class="back-button" onclick="showMain()">← Back to Main Page</button>
-            <h2 class="calendar-title">📅 Madrasha Chute and Khula 📅</h2>
-
-            <div class="month-section">
-                <h3 class="month-title">September 2025</h3>
-                <div class="calendar-dates" id="septemberDates"></div>
-            </div>
-
-            <div class="month-section">
-                <h3 class="month-title">November 2025</h3>
-                <div class="calendar-dates" id="novemberDates"></div>
-            </div>
-
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #4ade80;"></div>
-                    <span>Normal Days</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #ef4444;"></div>
-                    <span>Holidays (Friday/Saturday & Sept 30 - Nov 6)</span>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+                <div class="switch-auth">
+                    Already have an account? <a href="#" onclick="showLogin(); return false;">Login</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    <!-- Main Dashboard -->
+    <div id="mainDashboard" class="container hidden">
+        <div class="dashboard">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div class="welcome-section">
+                    <h2>Welcome, <span id="userName"></span>! 👋</h2>
+                    <p>Roll Number: <span id="userRoll"></span></p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-logout" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
 
-        // Initialize Supabase
-        const supabaseUrl = 'https://gwrcvtigfgzwamwvtdcs.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3cmN2dGlnZmd6d2Ftd3Z0ZGNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTY3MzksImV4cCI6MjA3NDc5MjczOX0.6cMJLCOjCRAwJzkFsj2rUVpPMi2zwXca_lq8nJPpIkg';
-        const supabase = createClient(supabaseUrl, supabaseKey);
+            <!-- Main Content Area -->
+            <div id="mainContent">
+                <!-- Celebrate Section -->
+                <div class="celebrate-section" onclick="showCalendar()">
+                    <h2>🎉 Madrasha Celebrate 🎉</h2>
+                </div>
 
-        // Make supabase globally available
-        window.supabase = supabase;
+                <!-- Students Section -->
+                <div class="students-section">
+                    <h3>📚 Student Directory</h3>
+                    <div class="students-grid">
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Rakib</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 14</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> 10</div>
+                            </div>
+                        </div>
 
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Hafizur</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> 11</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Kaku</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Salman</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Adeb</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Nurul Amin</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 15</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Dipo</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> 18</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Tahsin</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Hassan</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Ryadh</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Sahin</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> To be added</div>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="toggleDetails(this)">
+                            <div class="student-name">Hafiz 2</div>
+                            <div class="student-details">
+                                <div class="detail-item"><span class="detail-label">Age:</span> To be added</div>
+                                <div class="detail-item"><span class="detail-label">Roll:</span> This student Roll is not Found :(</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Page -->
+            <div id="calendarPage" class="calendar-page hidden">
+                <div class="calendar-header">
+                    <h2 class="calendar-title">📅 Madrasha Chute and Khula</h2>
+                    <button class="back-button" onclick="showMain()">← Back to Dashboard</button>
+                </div>
+
+                <div class="month-section">
+                    <h3 class="month-title">September 2025</h3>
+                    <div class="calendar-dates" id="septemberDates"></div>
+                </div>
+
+                <div class="month-section">
+                    <h3 class="month-title">November 2025</h3>
+                    <div class="calendar-dates" id="novemberDates"></div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);"></div>
+                        <span>Normal Days</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);"></div>
+                        <span>Holidays (Friday/Saturday & Sept 30 - Nov 6)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
         // Check if user is already logged in
-        checkAuth();
+        function initApp() {
+            checkAuth();
+            
+            // Attach form event listeners
+            const signupForm = document.getElementById('signupFormElement');
+            const loginForm = document.getElementById('loginFormElement');
+            
+            if (signupForm) {
+                signupForm.addEventListener('submit', handleSignup);
+            }
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
 
-        async function checkAuth() {
+        function checkAuth() {
             const userData = JSON.parse(localStorage.getItem('userData') || 'null');
             
             if (userData) {
-                showMainApp(userData);
+                showDashboard(userData);
             }
         }
 
-        // Attach form event listeners
-        document.getElementById('signupFormElement').addEventListener('submit', handleSignup);
-        document.getElementById('loginFormElement').addEventListener('submit', handleLogin);
-
         // Sign Up Handler
-        async function handleSignup(event) {
+        function handleSignup(event) {
             event.preventDefault();
             
             const name = document.getElementById('signupName').value.trim();
             const roll = document.getElementById('signupRoll').value.trim();
             const password = document.getElementById('signupPassword').value;
             
-            const signupBtn = document.getElementById('signupBtn');
-            signupBtn.disabled = true;
-            signupBtn.textContent = 'Signing up...';
-            
-            try {
-                // Check if roll already exists
-                const { data: existingUser } = await supabase
-                    .from('students')
-                    .select('*')
-                    .eq('roll', roll)
-                    .maybeSingle();
-                
-                if (existingUser) {
-                    showMessage('signupMessage', 'This roll number is already registered!', 'error');
-                    signupBtn.disabled = false;
-                    signupBtn.textContent = 'Sign Up';
-                    return;
-                }
-                
-                // Insert new user
-                const { data, error } = await supabase
-                    .from('students')
-                    .insert([
-                        { name: name, roll: roll, password: password }
-                    ])
-                    .select()
-                    .single();
-                
-                if (error) {
-                    throw error;
-                }
-                
-                showMessage('signupMessage', 'Sign up successful! Loading dashboard...', 'success');
-                
-                // Save user data to localStorage for session persistence
-                localStorage.setItem('userData', JSON.stringify(data));
-                
-                // Clear form
-                document.getElementById('signupName').value = '';
-                document.getElementById('signupRoll').value = '';
-                document.getElementById('signupPassword').value = '';
-                
-                // Go directly to dashboard after 1 second
-                setTimeout(() => {
-                    showMainApp(data);
-                    signupBtn.disabled = false;
-                    signupBtn.textContent = 'Sign Up';
-                }, 1000);
-                
-            } catch (err) {
-                console.error('Signup error:', err);
-                showMessage('signupMessage', 'Error: ' + err.message, 'error');
-                signupBtn.disabled = false;
-                signupBtn.textContent = 'Sign Up';
+            if (!name || !roll || !password) {
+                showMessage('signupMessage', 'Please fill in all fields!', 'error');
+                return;
             }
+
+            // Get existing users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if roll already exists
+            const existingUser = users.find(user => user.roll === roll);
+            if (existingUser) {
+                showMessage('signupMessage', 'This roll number is already registered!', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = { name, roll, password };
+            users.push(newUser);
+            
+            // Save to localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('userData', JSON.stringify(newUser));
+            
+            showMessage('signupMessage', 'Sign up successful! Loading dashboard...', 'success');
+            
+            setTimeout(() => {
+                showDashboard(newUser);
+            }, 1000);
         }
 
         // Login Handler
-        async function handleLogin(event) {
+        function handleLogin(event) {
             event.preventDefault();
             
             const roll = document.getElementById('loginRoll').value.trim();
             const password = document.getElementById('loginPassword').value;
             
-            const loginBtn = document.getElementById('loginBtn');
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Logging in...';
-            
-            try {
-                const { data, error } = await supabase
-                    .from('students')
-                    .select('*')
-                    .eq('roll', roll)
-                    .eq('password', password)
-                    .maybeSingle();
-                
-                if (error) {
-                    throw error;
-                }
-                
-                if (!data) {
-                    showMessage('loginMessage', 'Invalid roll number or password!', 'error');
-                    loginBtn.disabled = false;
-                    loginBtn.textContent = 'Login';
-                    return;
-                }
-                
-                // Save user data to localStorage for session persistence
-                localStorage.setItem('userData', JSON.stringify(data));
-                
-                showMessage('loginMessage', 'Login successful! Loading dashboard...', 'success');
-                
-                setTimeout(() => {
-                    showMainApp(data);
-                    loginBtn.disabled = false;
-                    loginBtn.textContent = 'Login';
-                }, 1000);
-                
-            } catch (err) {
-                console.error('Login error:', err);
-                showMessage('loginMessage', 'Error: ' + err.message, 'error');
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Login';
+            if (!roll || !password) {
+                showMessage('loginMessage', 'Please fill in all fields!', 'error');
+                return;
             }
+
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Find user
+            const user = users.find(u => u.roll === roll && u.password === password);
+            
+            if (!user) {
+                showMessage('loginMessage', 'Invalid roll number or password!', 'error');
+                return;
+            }
+            
+            // Save user data to localStorage for session persistence
+            localStorage.setItem('userData', JSON.stringify(user));
+            
+            showMessage('loginMessage', 'Login successful! Loading dashboard...', 'success');
+            
+            setTimeout(() => {
+                showDashboard(user);
+            }, 1000);
+        }
+
+        // Show Dashboard
+        function showDashboard(userData) {
+            document.getElementById('authWrapper').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userRoll').textContent = userData.roll;
         }
 
         // Logout Handler
-        window.handleLogout = function() {
-            localStorage.removeItem('userData');
-            location.reload();
-        };
-
-        // Show Main App
-        function showMainApp(userData) {
-            document.getElementById('authContainer').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            document.getElementById('userName').textContent = userData.name;
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('userData');
+                location.reload();
+            }
         }
 
         // Show Message
@@ -755,20 +967,29 @@
         }
 
         // Switch between Login and Signup
-        window.showLogin = function() {
+        function showLogin() {
             document.getElementById('signupForm').classList.add('hidden');
             document.getElementById('loginForm').classList.remove('hidden');
             document.getElementById('loginMessage').innerHTML = '';
-        };
+            
+            // Clear form
+            document.getElementById('loginRoll').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
 
-        window.showSignup = function() {
+        function showSignup() {
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('signupForm').classList.remove('hidden');
             document.getElementById('signupMessage').innerHTML = '';
-        };
+            
+            // Clear form
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupRoll').value = '';
+            document.getElementById('signupPassword').value = '';
+        }
 
         // Student Details Toggle
-        window.toggleDetails = function(element) {
+        function toggleDetails(element) {
             const details = element.querySelector('.student-details');
             const allDetails = document.querySelectorAll('.student-details');
             
@@ -779,19 +1000,19 @@
             });
             
             details.classList.toggle('active');
-        };
+        }
 
         // Calendar Functions
-        window.showCalendar = function() {
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('calendarPage').classList.add('active');
+        function showCalendar() {
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('calendarPage').classList.remove('hidden');
             generateCalendar();
-        };
+        }
 
-        window.showMain = function() {
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('calendarPage').classList.remove('active');
-        };
+        function showMain() {
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('calendarPage').classList.add('hidden');
+        }
 
         function generateCalendar() {
             generateMonth('septemberDates', 9, 2025);
